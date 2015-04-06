@@ -34,22 +34,22 @@ import com.pasaribu.store.data_model.AppsConstanta;
 import com.pasaribu.store.data_model.Barang;
 import com.pasaribu.store.volley.CustonJsonObjectRequest;
 
-public class CustomListHome 
+public class ListHomeAdapter 
 	extends ArrayAdapter<Barang> 
 	implements View.OnClickListener {
 	
-	private final String TAG = CustomListHome.class.getSimpleName();
+	private final String TAG = ListHomeAdapter.class.getSimpleName();
 	
 	private Context 		context;
 	private List<Barang>	dataBarangHome;
 	private String tag_delete_barang = "tag_delete_single_product";	
 	private final static int ROW_ITEM_LAYOUT = R.layout.list_item_home;
 	private final static int ROW_HEADER_LAYOUT = R.layout.list_header;
-	private CustomListHomeListener custListHomeListener;
+	private ListHomeAdapterListener custListHomeListener;
 	
 	private int position = 0;	
 	
-	public CustomListHome(Context context, List<Barang> data) {
+	public ListHomeAdapter(Context context, List<Barang> data) {
 		super(context, ROW_ITEM_LAYOUT, data);
 		
 		this.context = context;
@@ -58,16 +58,17 @@ public class CustomListHome
 	}
 	
 	//////////////////////////////////////////////////////////////////////
-	//Membuat Interface Callback utk dapat digunakan oleh
-	//Home.java
-	public void setCallBack(CustomListHomeListener custListHomeListener) {
+	//Membuat Interface Callback utk dapat digunakan oleh/////////////////
+	//Home.java///////////////////////////////////////////////////////////
+	public void setCallBack(ListHomeAdapterListener custListHomeListener) {
 		this.custListHomeListener = custListHomeListener;
 	}
 	
-	public interface CustomListHomeListener {
+	public interface ListHomeAdapterListener {
 		public void deleteDataBarangSuccess(boolean status);
 	}
 	///////////////////////////////////////////////////////////////////////
+	
 	
 	public void add(Barang barang) {
 		this.dataBarangHome.add(barang);
@@ -108,7 +109,7 @@ public class CustomListHome
 		if(!dataAktif.isGroupHeader()) {
 			itemView = inflater.inflate(ROW_ITEM_LAYOUT, parent, false);			
 		
-			holder.text_product_name = (TextView) itemView.findViewById(R.id.text_supplierName); 
+			holder.text_product_name = (TextView) itemView.findViewById(R.id.text_productName); 
 			holder.text_product_price = (TextView) itemView.findViewById(R.id.text_product_price);
 			holder.text_product_stock_date = (TextView) itemView.findViewById(R.id.text_product_stock_date);
 			holder.text_product_category = (TextView) itemView.findViewById(R.id.text_product_category);
@@ -121,7 +122,7 @@ public class CustomListHome
 			//Format teks utk text_product_stock_date TextView | 6 Unit - 15 Nov
 			text_product_stock_price = 	dataAktif.getStok_barang() 
 										+ " " + dataAktif.getSatuan_barang() 
-										+ " - " + Helper.getIndonesianDate(dataAktif.getTgl_stok_barang()); //TODO Buat fungsi pengubah tgl MySQL ke format indonesia
+										+ " - " + Helper.getIndonesianDate(dataAktif.getTgl_stok_barang()); //Tgl MySQL ke format indonesia
 					
 			holder.text_product_name.setText(dataAktif.getNama_barang());
 			holder.text_product_price.setText("Rp " + dataAktif.getHarga_barang());
